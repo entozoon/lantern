@@ -5,11 +5,12 @@
 const uint8_t numOfLeds = 16;
 bool flameOn = false;
 uint8_t areYouSure = 0;
-uint8_t areYouSures = 10;
+uint8_t areYouSures = 5;
 Adafruit_NeoPixel pixels =
     Adafruit_NeoPixel(numOfLeds, pinPixels, NEO_GRB + NEO_KHZ800);
 void setup() {
-  pinMode(pinTouch, INPUT_PULLUP);
+  // pinMode(pinTouch, INPUT_PULLUP);
+  pinMode(pinTouch, INPUT);
   pixels.begin();
   pixels.clear();
   pixels.setBrightness(255); // 1 -> 255
@@ -25,7 +26,8 @@ void loop() {
   //   pixels.setPixelColor(0, pixels.Color(0, 0, 0));
   //   pixels.show();
   // }
-  if (!digitalRead(pinTouch)) {
+  // if (!digitalRead(pinTouch)) {
+  if (digitalRead(pinTouch)) {
     if (!flameOn) {
       areYouSure = areYouSures;
       flameOn = true;
@@ -41,9 +43,12 @@ void loop() {
         pixels.show();
       }
     }
+    // JIC
+    pixels.fill(pixels.Color(255, 170, 20));
+    pixels.show();
   } else {
     areYouSure = areYouSure < areYouSures ? areYouSure + 1 : areYouSure;
-    if (flameOn && areYouSure == areYouSures) {
+    if (flameOn && areYouSure >= areYouSures) {
       areYouSure = 0;
       flameOn = false;
       for (double i = 1; i >= 0; i -= .015) {
@@ -52,9 +57,10 @@ void loop() {
         delay(10);
         pixels.show();
       }
-      pixels.fill(0, 0, 0);
-      pixels.show();
     }
+    // JIC
+    pixels.fill(0, 0, 0);
+    pixels.show();
   }
   delay(1000);
 }
