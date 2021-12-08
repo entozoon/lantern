@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
-#define pinPixels 2 // !!!! **********
-#define pinTouch 3
-#define pinTouch2 4
+#define pinPixels PD3
+#define pinTouch PD4
+#define pinTouch2 PD5
 const uint8_t numOfLeds = 16;
 bool flameOn = false;
 uint8_t areYouSure = 0;
@@ -10,8 +10,8 @@ uint8_t areYouSures = 5;
 Adafruit_NeoPixel pixels =
     Adafruit_NeoPixel(numOfLeds, pinPixels, NEO_GRB + NEO_KHZ800);
 void setup() {
-  // pinMode(pinTouch, INPUT_PULLUP);
-  // pinMode(pinTouch2, INPUT);
+  pinMode(pinTouch, INPUT_PULLUP);
+  pinMode(pinTouch2, INPUT);
   pixels.begin();
   pixels.clear();
   pixels.setBrightness(255); // 1 -> 255
@@ -21,21 +21,21 @@ void setup() {
   //   pixels.setPixelColor(i, pixels.Color(255, 170, 20));
   // }
   for (uint8_t i = 0; i < 10; i++) {
-    pixels.fill(0, 0, 255);
+    pixels.fill(pixels.Color(0, 0, 255));
     pixels.show();
     delay(1000);
-    pixels.fill(0, 0, 0);
+    pixels.fill(pixels.Color(0, 0, 0));
     pixels.show();
     delay(1000);
   }
 }
 void loop() {
   // if (!digitalRead(pinTouch)) {
-  //   pixels.fill(0, 0, 255);
+  //   pixels.fill( pixels.Color(0, 0, 255));
   // } else if (digitalRead(pinTouch2)) {
-  //   pixels.fill(0, 255, 0);
+  //   pixels.fill( pixels.Color(0, 255, 0));
   // } else {
-  //   pixels.fill(0, 10, 10);
+  //   pixels.fill( pixels.Color(0, 10, 10));
   // }
   // pixels.show();
   // delay(10);
